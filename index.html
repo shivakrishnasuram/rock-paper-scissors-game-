@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock paper sissors game</title>
+</head>
+<style>
+    *{
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+}
+h1{
+    background-color: #081b31;
+    color: white;
+    height: 5rem;
+    line-height: 5rem;
+
+}
+.choice:hover{
+    opacity:0.5 ;
+    cursor: pointer;
+
+}
+.choice {
+    height: 165px;
+    width: 165px;
+
+}
+img{
+    height: 150px;
+    width: 150px;
+    object-fit: fill;
+}
+.choices{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:3rem ;
+    margin-top: 5rem;
+}
+.score-board{
+    margin-top: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem; 
+    gap: 19rem;
+}
+#user-score,#comp-score{
+    font-size: 4rem;
+
+}
+.msg-container{
+    margin-top: 5rem;
+}
+#msg{
+    background-color: #50ff2d;
+    color: black;
+    font-size: 2rem;
+    display: inline;
+    padding: 1rem;
+    border-radius: 1rem;
+    
+}
+.msg{
+    border-radius:50px;
+    border-color: #50ff2d;
+    border-width: 2px;
+}
+</style>
+
+<body>
+    <h1>Rock Paper Scissors</h1>
+    <div class="choices">
+        <div class="choice" id="rock">
+            <img src="C:\Users\suram\OneDrive\Pictures\data structures and projects\rock (1).png" alt="">
+        </div>
+        <div class="choice" id="paper">
+            <img src="C:\Users\suram\OneDrive\Pictures\data structures and projects\paper (1).png" alt="">
+        </div>
+        <div class="choice" id="sissors">
+            <img src="C:\Users\suram\OneDrive\Pictures\data structures and projects\scissors (1).png" alt="">
+        </div>
+    </div>
+    <div class="score-board">
+        <div class="score">
+            <p id="user-score">0</p>
+            <p>you</p>
+        </div>
+        <div class="score">
+            <p id="comp-score">0</p>
+            <p>computer</p>
+        </div>
+
+    </div>
+
+    </div>
+    <div class="msg-container">
+        <p id="msg"> play your move</p>
+    </div>
+    <script>let userScore = 0;
+        let compScore = 0;
+
+        const choices = document.querySelectorAll(".choice");
+        const msg = document.querySelector("#msg");
+
+        const userScorePara = document.querySelector("#user-score");
+        const compScorePara = document.querySelector("#comp-score");
+
+        const genCompChoice = () => {
+            const options = ["rock", "paper", "scissors"];
+            const randIdx = Math.floor(Math.random() * 3);
+            return options[randIdx];
+        };
+
+        const drawGame = () => {
+            msg.innerText = "Game was tie. Play again.";
+            msg.style.backgroundColor = "white";
+
+        };
+
+        const showWinner = (userWin, userChoice, compChoice) => {
+            if (userWin) {
+                userScore++;
+                userScorePara.innerText = userScore;
+                msg.innerText = `You win! Your ${userChoice} beats ${compChoice}`;
+                msg.style.backgroundColor = "green";
+                msg.style.classList.add("msg");
+            } else {
+                compScore++;
+                compScorePara.innerText = compScore;
+                msg.innerText = `You lost. ${compChoice} beats your ${userChoice}`;
+                msg.style.backgroundColor = "red";
+            }
+        };
+
+        const playGame = (userChoice) => {
+            //Generate computer choice
+            const compChoice = genCompChoice();
+
+            if (userChoice === compChoice) {
+                //Draw Game
+                drawGame();
+            } else {
+                let userWin = true;
+                if (userChoice === "rock") {
+                    //scissors, paper
+                    userWin = compChoice === "paper" ? false : true;
+                } else if (userChoice === "paper") {
+                    //rock, scissors
+                    userWin = compChoice === "scissors" ? false : true;
+                } else {
+                    //rock, paper
+                    userWin = compChoice === "rock" ? false : true;
+                }
+                showWinner(userWin, userChoice, compChoice);
+            }
+        };
+
+        choices.forEach((choice) => {
+            choice.addEventListener("click", () => {
+                const userChoice = choice.getAttribute("id");
+                playGame(userChoice);
+            });
+        });</script>
+</body>
+
+</html>
